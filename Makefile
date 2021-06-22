@@ -7,7 +7,7 @@ all: docker helm-deploy
 docker: build-docker-image load-docker-image-to-minikube
 helm-deploy: localhelm-install helm-describe
 helm-destroy: helm-destroy
-app-test: apptest
+apptest-nonargocd: apptest
 
 
 build-docker-image:
@@ -43,17 +43,25 @@ helm-describe:
 	echo
 
 apptest:
-		@echo "\n-------------------------------------------------------------------------------------------";\
-	echo "*** Address to CURL the alphanumber app WITHIN this vagrant VM:";\
+	@echo "\n-------------------------------------------------------------------------------------------";\
+	echo "*** Testing some endpoints...:";\
 	echo "-------------------------------------------------------------------------------------------\n";\
+	export NODE_PORT=$(shell kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services alphanumber) ;\
+    export NODE_IP=$(shell kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}") ;\
+	echo "---------";\
+	echo "*** Testing $$NODE_IP:$$NODE_PORT/ready .... ***";\
 	curl $$NODE_IP:$$NODE_PORT/ready;\
 	echo "---------";\
+	echo "*** Testing $$NODE_IP:$$NODE_PORT/Dad .... ***";\
 	curl $$NODE_IP:$$NODE_PORT/Dad;\
 	echo "---------";\
+	echo "*** Testing $$NODE_IP:$$NODE_PORT/Dad37Dad9 .... ***";\
 	curl $$NODE_IP:$$NODE_PORT/Dad37Dad;\
 	echo "---------";\
+	echo "*** Testing $$NODE_IP:$$NODE_PORT/about .... ***";\
 	curl $$NODE_IP:$$NODE_PORT/about;\
 	echo "---------";\
+	echo "*** UP TO YOU: try testing $$NODE_IP:$$NODE_PORT/whatever .... ***";\
 	echo
 	
 helm-destroy:
