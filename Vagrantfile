@@ -31,13 +31,8 @@ Vagrant.configure("2") do |config|
         sudo -u vagrant MINIKUBE_IN_STYLE=0 minikube start --driver=docker 2>/dev/null
         # Install Helm
         curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-        # Install ArgoCD
-        kubectl create namespace argocd
-        kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
         # Clone repo
         git clone -b development https://github.com/michelemodolo/sb-test.git
-        # Enter $HOME/sb-test (i.e. the sb-test repo)
-        cd sb-test
     SHELL
     config.vm.synced_folder ".", "/syncd"
     config.vm.boot_timeout = 600
