@@ -31,7 +31,7 @@ def ready():
 
 
 @app.route('/about', methods=['GET'])
-def ready():
+def about():
     ofullname  = "Michele Modolo"
     opurpose = "fun"
     return jsonify(author=ofullname, purpose=opurpose)
