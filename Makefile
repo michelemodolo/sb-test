@@ -6,7 +6,8 @@
 # --------------------------------------------------
 # Options INSIDE Vagrant box (tested with minikube)
 # NOTE: helm installs from a local chart
-# -- Suggested usage: "make all-vagrant". Once you got satisfied: "make argocd-cleanup" to clean up.
+#
+# -- Suggested usage: "make all-vagrant".
 # --------------------------------------------------
 all-vagrant: docker helm-deploy apptest-nonargocd
 docker: builddockerimage loaddockerimagetominikube
@@ -17,6 +18,7 @@ apptest-nonargocd: apptestnonargocd
 # Options OUTSIDE Vagrant box (tested with docker-desktop)
 # Prereqs: helm,docker,k8s (e.g. docker-desktop) installed 
 # NOTE: helm installs from a remote charts (repo: https://michelemodolo.github.io/sb-helmcharts)
+#
 # -- Suggested usage: "make all". Once you got satisfied: "make argocd-cleanup" to clean up.
 # ----------------------------------------------------------------------------------------------
 all: builddockerimage helm-remote argocd-install argocd-appregistration apptest-argocd
