@@ -6,7 +6,7 @@
 # --------------------------------------------------
 # Options INSIDE Vagrant box (tested with minikube)
 # NOTE: helm installs from a local chart
-#
+# 
 # -- Suggested usage: "make all-vagrant".
 # --------------------------------------------------
 all-vagrant: docker helm-deploy apptest-nonargocd
