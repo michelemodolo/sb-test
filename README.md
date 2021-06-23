@@ -26,6 +26,6 @@ You must have already installed docker, kubectl, Helm and a kubernetes distribut
 <br>2.e - after testing, run "make argocd-cleanup" for cleaning up what "make all" built
 <br><b>NOTE:</b> This option uses a Helm deployment of a REMOTE CHART which is pulled from a remote helm charts repo (namely https://github.com/michelemodolo/sb-helmcharts). That likely is the most convenient way of exploiting Helm.
 
-<br>
+<br><br>
 I hope you enjoyed ;-)
 
