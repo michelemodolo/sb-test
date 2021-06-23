@@ -2,7 +2,7 @@
 This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K8S cluster. 
 
 <b>You have 2 DIFFERENT OPTIONS of using this repo (trying both is warmly suggested).</b>
-<br>Option 1) uses Helm only. Option 2) uses ArgoCD (which in turn uses Helm)
+<br>Option 1) uses Helm only. Option 2) uses ArgoCD (which in turn uses Helm).
 
 
 1) <b>YOU CAN USE A VAGRANT BOX.</b> The Vagrantfile in this repo builds such a box with everything bundled inside: docker, kubectl,minikube, Helm and... this repo too. Of course you must already have 'vagrant' and 'virtualbox' installed in your machine.
@@ -24,6 +24,6 @@ This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K
 - after testing, run "make argocd-cleanup" for cleaning up what "make all" built
 <br><b>NOTE:</b> This option uses a Helm deployment of a REMOTE CHART which is pulled from a remote helm charts repo (namely https://github.com/michelemodolo/sb-helmcharts). That likely is the most convenient way of exploiting Helm.
 
-<br><br>
+<br>
 I hope you enjoyed ;-)
 
