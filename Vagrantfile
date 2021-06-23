@@ -32,7 +32,7 @@ Vagrant.configure("2") do |config|
         # Install Helm
         curl -s https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
         # Clone repo
-        git clone -b development https://github.com/michelemodolo/sb-test.git
+        git clone https://github.com/michelemodolo/sb-test.git
     SHELL
     config.vm.synced_folder ".", "/syncd"
     config.vm.boot_timeout = 600
