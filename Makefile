@@ -89,9 +89,9 @@ argocdinstall:
 	kubectl create namespace argocd;\
     kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml;\
 	echo "\n--------------------------------------------------------------------------------------------------";\
-	echo "*** I am giving 40sec to ArgoCD so that all its pods can be running...";\
+	echo "*** I am giving 60sec to ArgoCD so that all its pods can be running...";\
 	echo "---------------------------------------------------------------------------------------------------\n";\
-	sleep 40
+	sleep 60
 
 helmremote:
 # ----------------------------------------------------------------------
@@ -116,7 +116,7 @@ argocdappregistration:
 
 apptestargocd:
 	@echo "\n-------------------------------------------------------------------------------------------";\
-	echo "*** IN YOUR BROWSER GO TO localhost:8888/whatever-you-want-to-test :";\
+	echo "*** ----->>> IN YOUR BROWSER GO TO localhost:8888/whatever-you-want-to-test : <<<----- ***";\
 	echo "-------------------------------------------------------------------------------------------\n";\
 	echo " AFTER you did your tests don't forget to stop the port binding, if still active, by running: \n";\
 	echo " 1) ps -ef | grep 'forward svc/alphanumber'  \n";\
