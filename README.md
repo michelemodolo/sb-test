@@ -14,7 +14,7 @@ This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K
 - <b>run "make all-vagrant"</b>: just read the emitted logs and... enjoy!
 <br><b>NOTE:</b> This option, just for showing how to do that, uses a Helm deployment of a LOCAL CHART which is pulled from this repo (./localhelm/alphanumber)
 
-
+<br><br>
 2) <b>YOU CAN DIRECTLY USE YOUR OWN MACHINE.</b> You must have already installed docker, kubectl, Helm and a kubernetes distribution of your choice (this code was successfully tested with docker-desktop for Mac).
 <br><br><u>Instructions:</u>
 - clone this repo
