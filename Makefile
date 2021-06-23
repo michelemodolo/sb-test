@@ -47,7 +47,7 @@ localhelminstall:
 	@echo "\n-------------------------------------------------------------------------------------------";\
 	echo "*** I am now installing the alphanumber app through Helm...";\
 	echo "-------------------------------------------------------------------------------------------\n";\
-	cd localhelm;\	
+	cd localhelm;\
 	helm install alphanumber alphanumber/ --values alphanumber/values.yaml;\
 	echo "\n--------------------------------------------------------------------------------------------------";\
 	echo "*** I am giving 40sec to Helm so that it can fully deploy the 'alphanumber' app...";\
