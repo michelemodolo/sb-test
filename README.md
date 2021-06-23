@@ -14,7 +14,7 @@ This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K
 <br><b>NOTE:</b> This option, just for showing how to do that, uses a Helm deployment of a LOCAL CHART which is pulled from this repo (./localhelm/alphanumber)
 
 
-2) <b>YOU CAN DIRECTLY USE YOUR OWN MACHINE.</b> You must have already installed docker, kubectl, Helm and a kubernetes distribution of your choice (this code was successfully tested with docker-desktop).
+2) <b>YOU CAN DIRECTLY USE YOUR OWN MACHINE.</b> You must have already installed docker, kubectl, Helm and a kubernetes distribution of your choice (this code was successfully tested with docker-desktop for Mac).
 <br><u>Instructions:</u>
 - clone this repo
 - enter this repo (by simply running "cd sb-test" after you cloned this repo)
