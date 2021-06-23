@@ -49,15 +49,17 @@ localhelminstall:
 	echo "-------------------------------------------------------------------------------------------\n";\
 	cd localhelm;\
 	helm install alphanumber alphanumber/ --values alphanumber/values.yaml;\
-	echo "\n--------------------------------------------------------------------------------------------------";\
-	echo "*** I am giving 40sec to Helm so that it can fully deploy the 'alphanumber' app...";\
-	echo "---------------------------------------------------------------------------------------------------\n";\
+	echo "\n-----------------------------------------------------------------------------------";\
+	echo "*** I am giving 40sec to 'alphanumber' app so that all its pods can be running...";\
+	echo "----------------------------------------------------------------------------------\n";\
 	sleep 40
 
 
 apptestnonargocd:
 	@echo "\n--------------------------------------------------------------------------------------------------";\
 	echo "*** Testing some endpoints... NOTE: special chars (including spaces) are not correctly handed by CURL";\
+	echo "*** NOTE1: CURL is needed within a Vagrant box because bridging a host browser from Vagrant is pretty thorny (for me)";\
+	echo "*** NOTE2: You will use your browser when testing onto your local cluster (check README.md)";\
 	echo "---------------------------------------------------------------------------------------------------\n";\
 	export NODE_PORT=$(shell kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services alphanumber) ;\
     export NODE_IP=$(shell kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}") ;\
@@ -68,7 +70,7 @@ apptestnonargocd:
 	echo "*** Testing $$NODE_IP:$$NODE_PORT/Dad .... ***";\
 	curl $$NODE_IP:$$NODE_PORT/Dad;\
 	echo "---------";\
-	echo "*** Testing $$NODE_IP:$$NODE_PORT/Dad37Dad5 .... ***";\
+	echo "*** Testing $$NODE_IP:$$NODE_PORT/Dad37Dad .... ***";\
 	curl $$NODE_IP:$$NODE_PORT/Dad37Dad;\
 	echo "---------";\
 	echo "*** Testing $$NODE_IP:$$NODE_PORT/about .... ***";\
