@@ -6,7 +6,7 @@ This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K
 
 
 1) <b>YOU CAN USE A VAGRANT BOX.</b> The Vagrantfile in this repo builds such a box with everything bundled inside: docker, kubectl,minikube, Helm and... this repo too. Of course you must already have 'vagrant' and 'virtualbox' installed in your machine.
-<br><u>Instructions</u>:
+<br><br><u>Instructions</u>:
 - clone this repo
 - run "vagrant up"
 - run "vagrant ssh" to enter your vagrant box
@@ -16,7 +16,7 @@ This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K
 
 
 2) <b>YOU CAN DIRECTLY USE YOUR OWN MACHINE.</b> You must have already installed docker, kubectl, Helm and a kubernetes distribution of your choice (this code was successfully tested with docker-desktop for Mac).
-<br><u>Instructions:</u>
+<br><br><u>Instructions:</u>
 - clone this repo
 - enter this repo (by simply running "cd sb-test" after you cloned this repo)
 - verify that your kubectl is pointing to the kubernetes cluster of your choice (just run "kubectl config get-contexts") and run "kubectl config use-context my-cluster-name" IF needed
