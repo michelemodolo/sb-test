@@ -5,8 +5,8 @@ This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K
 <br>Option 1) uses Helm only. Option 2) uses ArgoCD (which in turn uses Helm).
 
 
-1) <b>YOU CAN USE A VAGRANT BOX.</b> 
-<br>The Vagrantfile in this repo builds such a box with everything bundled inside: docker, kubectl,minikube, Helm and... this repo too. Of course you must already have 'vagrant' and 'virtualbox' installed in your machine.
+<h3>1) YOU CAN USE A VAGRANT BOX.</h3>
+The Vagrantfile in this repo builds such a box with everything bundled inside: docker, kubectl,minikube, Helm and... this repo too. Of course you must already have 'vagrant' and 'virtualbox' installed in your machine.
 <br><br><u>Instructions</u>:
 - clone this repo
 - run "vagrant up"
@@ -16,8 +16,8 @@ This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K
 <br><b>NOTE:</b> This option, just for showing how to do that, uses a Helm deployment of a LOCAL CHART which is pulled from this repo (./localhelm/alphanumber)
 
 <br><br>
-2) <b>YOU CAN DIRECTLY USE YOUR OWN MACHINE.</b> 
-<br>You must have already installed docker, kubectl, Helm and a kubernetes distribution of your choice (this code was successfully tested with docker-desktop for Mac).
+<h3>2) YOU CAN DIRECTLY USE YOUR OWN MACHINE.</h3>
+You must have already installed docker, kubectl, Helm and a kubernetes distribution of your choice (this code was successfully tested with docker-desktop for Mac).
 <br><br><u>Instructions:</u>
 - clone this repo
 - enter this repo (by simply running "cd sb-test" after you cloned this repo)
