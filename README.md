@@ -1,7 +1,7 @@
 # sb-test
 This repo allows you to quickly deploy a test app (named 'alphanumber') onto a K8S cluster. 
 
-<b>You have 2 DIFFERENT OPTIONS of using this repo:</b>
+<b>You have 2 DIFFERENT OPTIONS of using this repo (trying both is warmly suggested):</b>
 
 
 1) <b>YOU CAN USE A VAGRANT BOX.</b> The Vagrantfile in this repo builds such a box with everything bundled inside: docker, kubectl,minikube, Helm and... this repo too. Of course you must already have 'vagrant' and 'virtualbox' installed in your machine.
