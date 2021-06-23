@@ -3,27 +3,44 @@
 # Michele Modolo
 # ----------------------------------------------------------------------
 
-all: docker helm-deploy
-docker: build-docker-image load-docker-image-to-minikube
-helm-deploy: localhelm-install helm-describe
-apptest-nonargocd: apptest
+# --------------------------------------------------
+# Options INSIDE Vagrant box (tested with minikube)
+# NOTE: helm installs from a local chart
+# -- Suggested usage: "make all-vagrant". Once you got satisfied: "make argocd-cleanup" to clean up.
+# --------------------------------------------------
+all-vagrant: docker helm-deploy apptest-nonargocd
+docker: builddockerimage loaddockerimagetominikube
+helm-deploy: localhelminstall
+apptest-nonargocd: apptestnonargocd
 
+# ----------------------------------------------------------------------------------------------
+# Options OUTSIDE Vagrant box (tested with docker-desktop)
+# Prereqs: helm,docker,k8s (e.g. docker-desktop) installed 
+# NOTE: helm installs from a remote charts (repo: https://michelemodolo.github.io/sb-helmcharts)
+# -- Suggested usage: "make all". Once you got satisfied: "make argocd-cleanup" to clean up.
+# ----------------------------------------------------------------------------------------------
+all: builddockerimage helm-remote argocd-install argocd-appregistration apptest-argocd
+helm-remote: helmremote
+argocd-install: argocdinstall
+argocd-appregistration: argocdappregistration
+apptest-argocd: apptestargocd
+argocd-cleanup: argocdcleanup
 
-build-docker-image:
+builddockerimage:
 	@echo "\n--------------------------------------------------------";\
 	echo "*** I am about to build the alphanumber local docker image...";\
 	echo "---------------------------------------------------------\n";\
 	cd docker/alphanumber;\
 	docker build -t alphanumber:latest . ;\
 
-load-docker-image-to-minikube:
-	@echo "\n--------------------------------------------------------";\
+loaddockerimagetominikube:
+	@echo "\n----------------------------------------------------------------";\
 	echo "*** I am about to load the 'alphanumber' local docker image to minikube cluster...";\
-	echo "---------------------------------------------------------\n";\
+	echo "-----------------------------------------------------------------\n";\
 	minikube image load alphanumber:latest ;\
 	echo "done."
 
-localhelm-install:
+localhelminstall:
 # ----------------------------------------------------------------------
 # NOTE: this is a LOCAL helm install
 # ----------------------------------------------------------------------
@@ -31,20 +48,14 @@ localhelm-install:
 	echo "*** I am now installing the alphanumber app through Helm...";\
 	echo "-------------------------------------------------------------------------------------------\n";\
 	cd localhelm;\	
-	helm install alphanumber alphanumber/ --values alphanumber/values.yaml
+	helm install alphanumber alphanumber/ --values alphanumber/values.yaml;\
+	echo "\n--------------------------------------------------------------------------------------------------";\
+	echo "*** I am giving 40sec to Helm so that it can fully deploy the 'alphanumber' app...";\
+	echo "---------------------------------------------------------------------------------------------------\n";\
+	sleep 40
 
-helm-describe:
-	@echo "\n-------------------------------------------------------------------------------------------";\
-	echo "*** Address to CURL the alphanumber app WITHIN this vagrant VM:";\
-	echo "-------------------------------------------------------------------------------------------\n";\
-	export NODE_PORT=$(shell kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services alphanumber) ;\
-    export NODE_IP=$(shell kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}") ;\
-    echo "*** $$NODE_IP:$$NODE_PORT ***";\
-	echo "EXAMPLES: 'curl $$NODE_IP:$$NODE_PORT/ready','curl $$NODE_IP:$$NODE_PORT/Dad' etc...";\
-	echo "You MAY also CHOOSE to simply run 'make app-test'. Enjoy!";\
-	echo
 
-apptest:
+apptestnonargocd:
 	@echo "\n--------------------------------------------------------------------------------------------------";\
 	echo "*** Testing some endpoints... NOTE: special chars (including spaces) are not correctly handed by CURL";\
 	echo "---------------------------------------------------------------------------------------------------\n";\
@@ -66,25 +77,50 @@ apptest:
 	echo "*** UP TO YOU: try testing 'curl $$NODE_IP:$$NODE_PORT/whatever' .... ***";\
 	echo
 	
-helm-destroy:
+helmdestroy:
 	helm uninstall alphanumber
 
-argocd-install:
+argocdinstall:
+	@echo "\n-------------------------------------------------------------------------------------------";\
+	echo "*** I am installing ArgoCD...";\
+	echo "-------------------------------------------------------------------------------------------\n";\
 	kubectl create namespace argocd;\
-    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml;\
+	echo "\n--------------------------------------------------------------------------------------------------";\
+	echo "*** I am giving 40sec to ArgoCD so that all its pods can be running...";\
+	echo "---------------------------------------------------------------------------------------------------\n";\
+	sleep 40
 
-
-helm-remote:
+helmremote:
 # ----------------------------------------------------------------------
 # NOTE: this is a prerequisite for the ARGOCD-driven app installation!!
 # ----------------------------------------------------------------------
+	@echo "\n-----------------------------------------------------------------------------------------";\
+	echo "*** I am adding the michelemodolo.github.io/sb-helmcharts Helm repo as 'michelemodolo'...";\
+	echo "-----------------------------------------------------------------------------------------\n";\
 	helm repo add michelemodolo https://michelemodolo.github.io/sb-helmcharts/
 	helm repo update
 #	helm install alphanumber michelemodolo/alphanumber
 
-argocd-appregistration:
-	kubectl apply -n argocd -f argo-alphanumber.yaml
+argocdappregistration:
+	@echo "\n--------------------------------------------------------------------------------------------------";\
+	echo "*** I am registering the 'alphanumber' app to ArgoCD...";\
+	echo "---------------------------------------------------------------------------------------------------\n";\
+	kubectl apply -n argocd -f argocd-alphanumber.yaml;\
+	echo "\n--------------------------------------------------------------------------------------------------";\
+	echo "*** I am giving 40sec to ArgoCD so that it can fully deploy the 'alphanumber' app...";\
+	echo "---------------------------------------------------------------------------------------------------\n";\
+	sleep 40
 
+apptestargocd:
+	@echo "\n-------------------------------------------------------------------------------------------";\
+	echo "*** IN YOUR BROWSER GO TO localhost:8888/whatever-you-want-to-test :";\
+	echo "-------------------------------------------------------------------------------------------\n";\
+	echo " AFTER you did your tests don't forget to stop the port binding, if still active, by running: \n";\
+	echo " 1) ps -ef | grep 'forward svc/alphanumber'  \n";\
+	echo " 2) kill -9 THE-PID-YOU-NEED-TO-KILL  \n";\
+	kubectl port-forward svc/alphanumber -n argocd 8888:8000;\
+	echo 
 
-argocd-cleanup:
+argocdcleanup:
 	kubectl delete ns argocd
